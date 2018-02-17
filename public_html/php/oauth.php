@@ -10,7 +10,7 @@ class MW_OAuth {
 	var $mwOAuthUrl = 'https://www.mediawiki.org/w/index.php?title=Special:OAuth';
 	var $mwOAuthIW = 'mw'; // Set this to the interwiki prefix for the OAuth central wiki.
 	
-	function MW_OAuth ( $t , $l , $p ) {
+	function __construct ( $t , $l , $p ) {
 		$this->tool = $t ;
 		$this->language = $l ;
 		$this->project = $p ;
