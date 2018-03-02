@@ -2,6 +2,7 @@
 
 $wikidata_preferred_langs = array ('en','de','nl','fr','es','it','zh') ;
 $wikidata_api_url = 'https://www.wikidata.org/w/api.php' ;
+$wikidata_api_url = 'https://database.factgrid.de/api.php' ; // HACK
 
 class WDI {
 

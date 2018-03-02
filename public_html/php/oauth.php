@@ -15,11 +15,15 @@ class MW_OAuth {
 		$this->language = $l ;
 		$this->project = $p ;
 		$this->ini_file = "/data/project/$t/oauth.ini" ;
+		$this->ini_file = "/home/factgrid/$t/oauth.ini" ; // HACK
 		
 		if ( $l == 'wikidata' ) $this->apiUrl = 'https://www.wikidata.org/w/api.php' ;
 		elseif ( $l == 'commons' ) $this->apiUrl = 'https://commons.wikimedia.org/w/api.php' ;
 		elseif ( $p == 'mediawiki' ) $this->apiUrl = 'https://www.mediawiki.org/w/api.php' ;
 		else $this->apiUrl = "https://$l.$p.org/w/api.php" ;
+		$this->apiUrl = 'https://database.factgrid.de/api.php' ; // HACK
+		$this->mwOAuthUrl = 'https://database.factgrid.de/index.php?title=Special:OAuth' ; // HACK
+		$this->mwOAuthIW = '' ; // HACK
 
 		$this->loadIniFile() ;
 		$this->setupSession() ;
