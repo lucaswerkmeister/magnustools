@@ -241,9 +241,29 @@ function WikiDataItem ( init_wd , init_raw ) {
 				return false ;
 			} ) ;
 		} else {
-			if ( self.raw !== undefined && self.raw.labels !== undefined && 
-				self.raw.labels[language] !== undefined && self.raw.labels[language].value !== undefined ) 
-					label = self.raw.labels[language].value ;
+			if ( self.raw !== undefined ) {
+				if ( self.raw.labels !== undefined ) {
+					if ( self.raw.labels[language] !== undefined && self.raw.labels[language].value !== undefined ) 
+						label = self.raw.labels[language].value ;
+				} else if ( self.raw.lemmas !== undefined ) {
+					// lexeme lemmas are not expected to exist in the user's language, use the first lemma that exists
+					for ( var languageCode in self.raw.lemmas )
+						if ( self.raw.lemmas[languageCode] !== undefined && self.raw.lemmas[language].value !== undefined ) {
+							label = self.raw.lemmas[language].value ;
+							break ;
+						}
+				} else if ( self.raw.representations !== undefined ) {
+					// form representations are not expected to exist in the user's language, use the first representation that exists
+					for ( var languageCode in self.raw.representations )
+						if ( self.raw.representations[languageCode] !== undefined && self.raw.representations[language].value !== undefined ) {
+							label = self.raw.representations[language].value ;
+							break ;
+						}
+				} else if ( self.raw.glosses !== undefined ) {
+					if ( self.raw.glosses[language] !== undefined && self.raw.glosses[language].value !== undefined ) 
+						label = self.raw.glosses[language].value ;
+				}
+			}
 		}
 		return label ;
 	}
@@ -425,7 +445,7 @@ function WikiData () {
 		var hadthat = {} ;
 		$.each ( item_list , function ( dummy , q ) {
 			if ( typeof q == 'number' ) q = 'Q' + q ;
-			if ( !q.match(/^[PQ]\d+/i) ) return ; // Not an item/property
+			if ( !q.match(/^(?:[PQL]\d+|L\d+-[FS]\d+)/i) ) return ; // Not a known entity type
 			if ( self.items[q] !== undefined ) return ; // Have that one
 			if ( typeof hadthat[q] != 'undefined' ) return ;
 			hadthat[q] = 1 ;
